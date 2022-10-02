@@ -60,7 +60,7 @@ main {
     height: 50px;
     font-size: 24px;
 }
-button:hover {
+#button:hover {
     cursor: grab;
 }
 

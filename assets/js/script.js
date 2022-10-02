@@ -7,17 +7,32 @@ var ansA = document.querySelector("#a");
 var ansB = document.querySelector("#b");
 var ansC = document.querySelector("#c");
 var ansD = document.querySelector("#d");
-var score = 0
+var score = 0;
+var savedScores = JSON.parse(localStorage.getItem("initials")) || []
+var answer1 = "<section>";
+var answer2 = "  #  ";
+var answer3 = "var x = element";
+var answer4 = "<img>";
+var answer5 = "Version control & collaboration";
 var timerTracker = document.getElementsByClassName("timer");
+var time = 1000 * 20;
 startQuizBtn.addEventListener("click", begin);
 //console.log(question); //<=== I use this console to DOM traverse accurately
 
 // begin the game- click the button switches the text under main h4 with id question to a question
 // begin also starts timer until end of game 20 seconds and projects that on main section .timer
+function timeUp(){
 
+}
+//above function is what happens after the timer elapses not the timeout set
+//overall timeout encompassing all question functions that if answered correctly moves to next but if not degridades timer by 5 sec and moves on
 function begin(){
-    console.log("HEllo I am working");
-    var answer1 = ansC;
+    //console.log("HEllo I am working");
+    
+    ansA.addEventListener("click", questionTwo);
+    ansB.addEventListener("click", questionTwo);
+    ansC.addEventListener("click", questionTwo);
+    ansD.addEventListener("click", questionTwo);
     question.innerHTML = "1. Which one of the following is proper semantic HTML?";
     ansA.textContent = "<span>";
     ansA.style.visibility = "visible";
@@ -27,12 +42,26 @@ function begin(){
     ansC.style.visibility = "visible";
     ansD.textContent = "<flopper>"
     ansD.style.visibility = "visible";
-
-    if()
+    
     }
-    //question.setAttribute("")
-function questionTwo(){
+    
+function questionTwo(event){
+    //console.log(event.target.textContent);
     //console.log("HEllo I am working");
+    if(event.target.textContent === answer1){
+      score++;
+    //    startQuizBtn.innerHTML = "Correct";
+    }
+    else {
+        time = time - (1000 * 5)
+    }
+    //if (//answers incorrect){
+     //   timeRemaining - (1000 * 5);
+    console.log(score);
+    ansA.addEventListener("click", questionThree);
+    ansB.addEventListener("click", questionThree);
+    ansC.addEventListener("click", questionThree);
+    ansD.addEventListener("click", questionThree);
     question.innerHTML = "2. Which one is a proper CSS selector for an id?";
     ansA.textContent = "  .  ";
     ansA.style.visibility = "visible";
@@ -43,7 +72,14 @@ function questionTwo(){
     ansD.textContent = "   *   "
     ansD.style.visibility = "visible"; 
 }
-function questionThree(){
+function questionThree(event){
+    if(event.target.textContent === answer2){
+        score++;}
+        console.log(score); 
+    ansA.addEventListener("click", questionFour);
+    ansB.addEventListener("click", questionFour);
+    ansC.addEventListener("click", questionFour);
+    ansD.addEventListener("click", questionFour);
     question.innerHTML = "3. How do you establish a variable in javascript?";
     ansA.textContent = "variable: element";
     ansA.style.visibility = "visible";
@@ -55,7 +91,14 @@ function questionThree(){
     ansD.style.visibility = "visible"; 
 }
 
-function questionFour(){
+function questionFour(event){
+    if(event.target.textContent === answer3){
+        score++;}
+        console.log(score)
+    ansA.addEventListener("click", questionFive);
+    ansB.addEventListener("click", questionFive);
+    ansC.addEventListener("click", questionFive);
+    ansD.addEventListener("click", questionFive);
     question.innerHTML = "4. What tag do we use to implement an image in HTML?";
     ansA.textContent = "<img>";
     ansA.style.visibility = "visible";
@@ -67,7 +110,13 @@ function questionFour(){
     ansD.style.visibility = "visible"; 
 }
 
-function questionFive(){
+function questionFive(event){
+    if(event.target.textContent === answer4){
+        score++;}
+    ansA.addEventListener("click", saveYourScore);//figure out the functiopn the click should activate
+    ansB.addEventListener("click", saveYourScore);
+    ansC.addEventListener("click", saveYourScore);
+    ansD.addEventListener("click", saveYourScore);
     question.innerHTML = "5. What is GitHub used for?";
     ansA.textContent = "spending Bitcoin";
     ansA.style.visibility = "visible";
@@ -78,6 +127,21 @@ function questionFive(){
     ansD.textContent = "writing and altering code"
     ansD.style.visibility = "visible"; 
 }
+function saveYourScore(event){
+    var input = document.createElement("input");
+    question.innerHTML = "Save your high score of... " + score + " by inputting your initials below";
+    ansA.style.visibility = "hidden";
+    ansB.style.visibility = "hidden";
+    ansC.style.visibility = "hidden";
+    ansD.style.visibility = "hidden";
+    startQuizBtn.addEventListener("click", questionThree);
+    startQuizBtn.textContent = "Submit!"
+
+}
+
+//function initialSave()
+//localStorage.setItem("initials", JSON.stringify(score)) <---- make array for all scores then stringify and parse that array
+///savedScores.push()
     /*function endQuiz(){
 
         var quizTimer
@@ -103,7 +167,7 @@ function questionFive(){
 //high scores .appendChild(ul)
 
 
-
+// refresh page when submit---  window.reload()
 
 
 
