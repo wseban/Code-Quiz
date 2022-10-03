@@ -44,7 +44,7 @@ function qTimer(){
 //overall timeout encompassing all question functions that if answered correctly moves to next but if not degridades timer by 5 sec and moves on
 function begin(){
     //console.log("HEllo I am working");
-
+    timeCount = 20
     qTimer()
     ansA.addEventListener("click", questionTwo);
     ansB.addEventListener("click", questionTwo);
@@ -219,7 +219,9 @@ function endQuiz(event){
     document.querySelector("#highScores").textContent = localStorage.getItem(initials.value, JSON.parse(localStorage.getItem(score)));
     //location.reload();
     console.log(localStorage.getItem(initials.value))
-    tryAgain();
+    startQuizBtn.removeEventListener("click", endQuiz);
+    startQuizBtn.addEventListener("click", begin);
+    startQuizBtn.textContent = "Again?"
 }
 
 
