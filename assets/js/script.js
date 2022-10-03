@@ -16,7 +16,7 @@ var answer3 = "var x = element";
 var answer4 = "<img>";
 var answer5 = "Version control & collaboration";
 var timerTracker = document.querySelector(".timer");
-var startTime = 1000 * 10;
+var timeUp;
 var timeRemaining;
 var timeCount = 20;
 startQuizBtn.addEventListener("click", begin);
@@ -24,18 +24,18 @@ startQuizBtn.addEventListener("click", begin);
 //function timer(){
 
 //}
-function Timer(){
+function qTimer(){
     timeRemaining = setInterval(function(){
         timeCount--;
+        console.log(timeCount)
         timerTracker.textContent = Math.floor(timeCount);
-        if (timeCount === 0){
+        if (timeCount <= 0){
+            timeCount = 0;
             clearInterval(timeRemaining);
-            endQuiz()
+            endGame();
         }
     }, 1000)
 }
-
-
 // begin the game- click the button switches the text under main h4 with id question to a question
 // begin also starts timer until end of game 20 seconds and projects that on main section .timer
 //timeRemaining = setInterval()
@@ -45,7 +45,7 @@ function Timer(){
 function begin(){
     //console.log("HEllo I am working");
 
-    Timer()
+    qTimer()
     ansA.addEventListener("click", questionTwo);
     ansB.addEventListener("click", questionTwo);
     ansC.addEventListener("click", questionTwo);
@@ -60,7 +60,7 @@ function begin(){
     ansD.textContent = "<flopper>"
     ansD.style.visibility = "visible";
     startQuizBtn.style.visibility = "hidden";
-    console.log(Math.floor(timeRemaining));
+    //console.log(Math.floor(timeRemaining));
     }
     
 function questionTwo(event){
@@ -174,9 +174,11 @@ function questionFive(event){
     ansD.style.visibility = "visible"; 
 }
 function saveYourScore(event){
+    event.preventDefault();
     if(event.target.textContent === answer5){
         score++
     }
+    
     /*var input = document.createElement("input");
     input.setAttribute("type", "text");*/
     clearTimeout(timeRemaining);
@@ -193,17 +195,40 @@ function saveYourScore(event){
     startQuizBtn.addEventListener("click", endQuiz);
     startQuizBtn.textContent = "Submit!"
 }
-function endQuiz(){
+function endGame(){
+    clearTimeout(timeRemaining);
+    question.innerHTML = "Save your high score of... " + score + " by inputting your initials below";
+    ansA.style.visibility = "hidden";
+    ansB.style.visibility = "hidden";
+    ansC.style.visibility = "hidden";
+    ansD.style.visibility = "hidden";
+    startQuizBtn.style.visibility = "visible";
+    startQuizBtn.removeEventListener("click", begin);
+    initials = document.createElement("input");
+    initials.setAttribute("type", "text");
+    question.appendChild(initials);
+    startQuizBtn.addEventListener("click", endQuiz);
+    startQuizBtn.textContent = "Submit!"
+}
+
+function endQuiz(event){
+    event.preventDefault();
     //initials = document.body.children[1].children[0].children[0].children[0];
     var list = localStorage.setItem(initials.value, JSON.stringify(score));
    // savedScores.push(list);
-    document.querySelector("#highScores").innerHTML = (initials, JSON.parse(localStorage.getItem(score)));
-    location.reload();
+    document.querySelector("#highScores").textContent = localStorage.getItem(initials.value, JSON.parse(localStorage.getItem(score)));
+    //location.reload();
+    console.log(localStorage.getItem(initials.value))
+    tryAgain();
 }
+
+
+
+//function newTry
 //function initialSave()
 //localStorage.setItem("initials", JSON.stringify(score)) <---- make array for all scores then stringify and parse that array
 ///savedScores.push()
-    
+
 
 
 
