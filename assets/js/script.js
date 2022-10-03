@@ -18,11 +18,23 @@ var answer5 = "Version control & collaboration";
 var timerTracker = document.querySelector(".timer");
 var startTime = 1000 * 10;
 var timeRemaining;
+var timeCount = 20;
 startQuizBtn.addEventListener("click", begin);
 //console.log(question); //<=== I use this console to DOM traverse accurately
 //function timer(){
 
 //}
+function Timer(){
+    timeRemaining = setInterval(function(){
+        timeCount--;
+        timerTracker.textContent = Math.floor(timeCount);
+        if (timeCount === 0){
+            clearInterval(timeRemaining);
+            endQuiz()
+        }
+    }, 1000)
+}
+
 
 // begin the game- click the button switches the text under main h4 with id question to a question
 // begin also starts timer until end of game 20 seconds and projects that on main section .timer
@@ -32,8 +44,8 @@ startQuizBtn.addEventListener("click", begin);
 //overall timeout encompassing all question functions that if answered correctly moves to next but if not degridades timer by 5 sec and moves on
 function begin(){
     //console.log("HEllo I am working");
-    timeRemaining = setTimeout(saveYourScore, startTime);
-    timerTracker.innerHTML = "Timer: " + timeRemaining;
+
+    Timer()
     ansA.addEventListener("click", questionTwo);
     ansB.addEventListener("click", questionTwo);
     ansC.addEventListener("click", questionTwo);
@@ -57,6 +69,9 @@ function questionTwo(event){
     if(event.target.textContent === answer1){
       score++;
     //    startQuizBtn.innerHTML = "Correct";
+    }
+    else{
+        timeCount = timeCount - 5;
     }
     console.log(score);
 
@@ -84,6 +99,9 @@ function questionTwo(event){
 function questionThree(event){
     if(event.target.textContent === answer2){
         score++;}
+    else{
+     timeCount = timeCount - 5;
+    }
      console.log(score);
      ansA.removeEventListener("click", questionThree);
      ansB.removeEventListener("click", questionThree);
@@ -107,6 +125,9 @@ function questionThree(event){
 function questionFour(event){
     if(event.target.textContent === answer3){
         score++;}
+    else{
+        timeCount = timeCount - 5;
+    }    
         console.log(score);
         ansA.removeEventListener("click", questionFour);
         ansB.removeEventListener("click", questionFour);
@@ -130,6 +151,9 @@ function questionFour(event){
 function questionFive(event){
     if(event.target.textContent === answer4){
         score++;}
+    else{
+        timeCount = timeCount - 5;
+    }
         console.log(score);
         ansA.removeEventListener("click", questionFive);
         ansB.removeEventListener("click", questionFive);
