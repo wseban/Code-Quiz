@@ -8,27 +8,32 @@ var ansB = document.querySelector("#b");
 var ansC = document.querySelector("#c");
 var ansD = document.querySelector("#d");
 var score = 0;
-var savedScores = JSON.parse(localStorage.getItem("initials")) || []
+//var savedScores = JSON.parse(localStorage.getItem(initials)) || []
+var initials;
 var answer1 = "<section>";
 var answer2 = "  #  ";
 var answer3 = "var x = element";
 var answer4 = "<img>";
 var answer5 = "Version control & collaboration";
-var timerTracker = document.getElementsByClassName("timer");
-var time = 1000 * 20;
+var timerTracker = document.querySelector(".timer");
+var startTime = 1000 * 10;
+var timeRemaining;
 startQuizBtn.addEventListener("click", begin);
 //console.log(question); //<=== I use this console to DOM traverse accurately
+//function timer(){
+
+//}
 
 // begin the game- click the button switches the text under main h4 with id question to a question
 // begin also starts timer until end of game 20 seconds and projects that on main section .timer
-function timeUp(){
+//timeRemaining = setInterval()
 
-}
 //above function is what happens after the timer elapses not the timeout set
 //overall timeout encompassing all question functions that if answered correctly moves to next but if not degridades timer by 5 sec and moves on
 function begin(){
     //console.log("HEllo I am working");
-    
+    timeRemaining = setTimeout(saveYourScore, startTime);
+    timerTracker.innerHTML = "Timer: " + timeRemaining;
     ansA.addEventListener("click", questionTwo);
     ansB.addEventListener("click", questionTwo);
     ansC.addEventListener("click", questionTwo);
@@ -42,7 +47,8 @@ function begin(){
     ansC.style.visibility = "visible";
     ansD.textContent = "<flopper>"
     ansD.style.visibility = "visible";
-    
+    startQuizBtn.style.visibility = "hidden";
+    console.log(Math.floor(timeRemaining));
     }
     
 function questionTwo(event){
@@ -52,12 +58,15 @@ function questionTwo(event){
       score++;
     //    startQuizBtn.innerHTML = "Correct";
     }
-    else {
-        time = time - (1000 * 5)
-    }
+    console.log(score);
+
     //if (//answers incorrect){
      //   timeRemaining - (1000 * 5);
-    console.log(score);
+     ansA.removeEventListener("click", questionTwo);
+     ansB.removeEventListener("click", questionTwo);
+     ansC.removeEventListener("click", questionTwo);
+     ansD.removeEventListener("click", questionTwo);
+    
     ansA.addEventListener("click", questionThree);
     ansB.addEventListener("click", questionThree);
     ansC.addEventListener("click", questionThree);
@@ -75,7 +84,11 @@ function questionTwo(event){
 function questionThree(event){
     if(event.target.textContent === answer2){
         score++;}
-        console.log(score); 
+     console.log(score);
+     ansA.removeEventListener("click", questionThree);
+     ansB.removeEventListener("click", questionThree);
+     ansC.removeEventListener("click", questionThree);
+     ansD.removeEventListener("click", questionThree);
     ansA.addEventListener("click", questionFour);
     ansB.addEventListener("click", questionFour);
     ansC.addEventListener("click", questionFour);
@@ -94,7 +107,11 @@ function questionThree(event){
 function questionFour(event){
     if(event.target.textContent === answer3){
         score++;}
-        console.log(score)
+        console.log(score);
+        ansA.removeEventListener("click", questionFour);
+        ansB.removeEventListener("click", questionFour);
+        ansC.removeEventListener("click", questionFour);
+        ansD.removeEventListener("click", questionFour);
     ansA.addEventListener("click", questionFive);
     ansB.addEventListener("click", questionFive);
     ansC.addEventListener("click", questionFive);
@@ -113,6 +130,11 @@ function questionFour(event){
 function questionFive(event){
     if(event.target.textContent === answer4){
         score++;}
+        console.log(score);
+        ansA.removeEventListener("click", questionFive);
+        ansB.removeEventListener("click", questionFive);
+        ansC.removeEventListener("click", questionFive);
+        ansD.removeEventListener("click", questionFive);
     ansA.addEventListener("click", saveYourScore);//figure out the functiopn the click should activate
     ansB.addEventListener("click", saveYourScore);
     ansC.addEventListener("click", saveYourScore);
@@ -128,24 +150,47 @@ function questionFive(event){
     ansD.style.visibility = "visible"; 
 }
 function saveYourScore(event){
-    var input = document.createElement("input");
+    if(event.target.textContent === answer5){
+        score++
+    }
+    /*var input = document.createElement("input");
+    input.setAttribute("type", "text");*/
+    clearTimeout(timeRemaining);
     question.innerHTML = "Save your high score of... " + score + " by inputting your initials below";
     ansA.style.visibility = "hidden";
     ansB.style.visibility = "hidden";
     ansC.style.visibility = "hidden";
     ansD.style.visibility = "hidden";
-    startQuizBtn.addEventListener("click", questionThree);
+    startQuizBtn.style.visibility = "visible";
+    startQuizBtn.removeEventListener("click", begin);
+    initials = document.createElement("input");
+    initials.setAttribute("type", "text");
+    question.appendChild(initials);
+    startQuizBtn.addEventListener("click", endQuiz);
     startQuizBtn.textContent = "Submit!"
-
 }
-
+function endQuiz(){
+    //initials = document.body.children[1].children[0].children[0].children[0];
+    var list = localStorage.setItem(initials.value, JSON.stringify(score));
+   // savedScores.push(list);
+    document.querySelector("#highScores").innerHTML = (initials, JSON.parse(localStorage.getItem(score)));
+    location.reload();
+}
 //function initialSave()
 //localStorage.setItem("initials", JSON.stringify(score)) <---- make array for all scores then stringify and parse that array
 ///savedScores.push()
-    /*function endQuiz(){
+    
+
+
+
+/*function endQuiz(){
 
         var quizTimer
     }
+
+
+
+
 */
 //if element.matches(#a b or c) === false;  timeLeft subtracts 5 seconds
 // moves on to next question
